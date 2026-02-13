@@ -100,7 +100,7 @@ alias r="yay -Rns"
 alias s="sudo pacman -S"
 alias ys="yay -S"
 alias cd="z"
-alias cfg="zed ~/.zshrc"
+alias cfg="micro ~/.zshrc"
 alias nano="micro"
 alias empty='rm -rf ~/.local/share/Trash/files'
 alias pls="sudo $(history -p !!)"
@@ -108,6 +108,9 @@ alias pg="ping -c 3 google.com"
 alias iwc="iwctl station wlan0"
 alias iwl="iwctl"
 alias nt="iwc get-networks"
+# i like 480p
+alias yd="yt-dlp -f 'bestvideo[height=480]+bestaudio'  -S vcodec:h264,res:480,acodec:m4a"
+
 mkcd(){
     mkdir $1 && cd $1
 }
