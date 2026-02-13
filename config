@@ -1,0 +1,25 @@
+# Colors
+
+# background-color=#24273a
+background-color=#272e3399
+#text-color=#cad3f5
+text-color=#d3c6aa
+#border-color=#a6da95
+border-color=#30d577
+border-radius=12
+progress-color=over #3E485099
+default-timeout=10000
+anchor=bottom-center
+font=BigBlueTermPlus Nerd Font 10
+sort=+time
+max-icon-size=50
+actions=1
+icon-path=$HOME/.local/share/icons/Adwaita:/usr/share/icons/Adwaita
+[urgency=high]
+border-color=#f5a97f
+[category="low-battery"]
+on-button-left=exec ~/.config/hypr/scripts/power-toggle.sh
+[mode=dnd]
+invisible=1
+[mode=clear]
+history=0
