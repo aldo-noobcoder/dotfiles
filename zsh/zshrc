@@ -1,0 +1,100 @@
+fastfetch
+todo list --sort uid
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.config/zsh/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+# Source/Load zinit
+source "${ZINIT_HOME}/zinit.zsh"
+ZSHROOT="$HOME/.config/zsh"
+
+# Add in zsh plugins
+source "$ZSHROOT/plugins/sudo_zsh.zsh"
+source "$ZSHROOT/aliases.zsh"
+source "$ZSHROOT/env.zsh"
+source "$ZSHROOT/binds.zsh"
+source "$ZSHROOT/functions.zsh"
+
+zinit ice depth=1; zinit light romkatv/powerlevel10k
+zinit ice lucid wait'0'
+zinit light ahmubashshir/zinsults
+zinit light joshskidmore/zsh-fzf-history-search
+zinit light jessetipton/ding
+zinit light mejistus/zsh-plugin-qqq
+zinit light Freed-Wu/zsh-help
+zinit light zsh-users/zsh-completions
+zinit light zsh-users/zsh-autosuggestions
+zinit light Aloxaf/fzf-tab
+zinit light unixorn/prettyping
+zinit light QuarticCat/zsh-smartcache
+zinit light zdharma-continuum/fast-syntax-highlighting
+zinit light marlonrichert/zsh-autocomplete
+zinit light diverdale/colored-man-pages-plus
+zinit light ChrisPenner/copy-pasta
+# Add in snippets
+zinit snippet OMZL::git.zsh
+zinit snippet OMZP::git
+zinit snippet OMZP::sudo
+zinit snippet OMZP::archlinux
+zinit snippet OMZP::command-not-found
+
+# 
+# 
+# 
+smartcache eval fzf --zsh
+smartcache eval zoxide init zsh --cmd cd
+smartcache eval pay-respects zsh
+# History
+HISTSIZE=10000
+SAVEHIST=$HISTSIZE
+HISTDUP=erase
+export HISTCONTROL=ignoreboth:erasedups
+# Ignore noisy commands in history
+export HISTIGNORE="&:ls:[bf]g:exit:ll:llt:la:lst:clr:clear:btop:wttr:lsd"
+export HISTIGNORE="${HISTIGNORE}:topgrade:yay:exec\ bash:cd\ *:new:kill:attach"
+setopt appendhistory
+setopt sharehistory
+setopt hist_ignore_space
+setopt hist_ignore_all_dups
+setopt hist_save_no_dups
+setopt hist_ignore_dups
+setopt hist_find_no_dups
+setopt CORRECT
+setopt AUTO_MENU          # show completion menu on second Tab
+setopt COMPLETE_IN_WORD   # complete from anywhere in a word
+setopt ALWAYS_TO_END      # move cursor to end after completion
+
+
+# Completion styling
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
+zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
+zstyle ':completion:*:descriptions' format '[%d]'
+zstyle ':fzf-tab:*' switch-group ',' '.'
+
+# typeset -g __ran_once=0
+# 
+# function zle-line-init() {
+#     (( __ran_once )) && return
+#     __ran_once=1
+# 
+#     BUFFER="todo list"
+#     CURSOR=${#BUFFER}
+#     zle accept-line
+# }
+# 
+# zle -N zle-line-init
+
+
+
+# To customize prompt, run `p10k configure` or edit ~/.config/zsh/.p10k.zsh.
+[[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
+
+
+
+
