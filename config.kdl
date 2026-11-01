@@ -1,0 +1,370 @@
+
+input {
+
+    keyboard {
+        xkb {
+            layout "us"
+        }
+    }
+
+    touchpad {
+        tap // Enable tap-to-click
+        natural-scroll // Enable natural (macOS-style) scrolling
+    }
+
+    focus-follows-mouse // Automatically focus windows under the mouse pointer
+    workspace-auto-back-and-forth // Enable workspace back & forth switching
+
+    mouse
+}
+
+cursor {
+    xcursor-size 36
+    xcursor-theme "Terraria"
+}
+
+blur {
+    off
+    passes 4
+    offset 3.0
+    noise 0.03
+    saturation 0.9
+}
+
+// ────────────── Output Configuration ──────────────
+// You can run `niri msg outputs` to get the correct name for your displays.
+// You will have to remove "/-" and edit it before it takes effect.
+// https://github.com/YaLTeR/niri/wiki/Configuration:-Outputs
+
+/- output "DP-1" {
+    mode "2560x1440@359.979" // Set resolution and refresh rate
+    scale 1 // No scaling (use 2 for HiDPI)
+}
+
+// ────────────── Keybindings ──────────────
+// https://github.com/YaLTeR/niri/wiki/Configuration:-Key-Bindings
+
+binds {
+    MOD+SHIFT+ESCAPE                     { show-hotkey-overlay; }
+
+    // ─── Applications ───
+    MOD+Q hotkey-overlay-title="Open Terminal: kitty" { spawn-sh "kitty"; }
+    MOD+Z hotkey-overlay-title="Open Secondary Terminal: foot" { spawn-sh "foot"; }
+    MOD+SPACE hotkey-overlay-title="Open App Launcher: rofi" { spawn-sh "rofi -show drun"; }
+    MOD+V hotkey-overlay-title="Open App Launcher: rofi" { spawn-sh "rofi -show clip"; }
+    MOD+A hotkey-overlay-title="Open Editor: Zed" { spawn-sh "zeditor"; }
+    MOD+X hotkey-overlay-title="Color Picker: hyprpicker" { spawn-sh "~/.config/niri/scripts/colorpicker.sh"; }
+    MOD+R hotkey-overlay-title="Open Browser: zen-browser" { spawn-sh "zen-browser"; }
+    //MOD+ALT+L                           hotkey-overlay-title="Lock Screen: hyprlock" { spawn-sh "hyprlock"; }
+    MOD+ALT+L hotkey-overlay-title="Lock Screen: qylock" { spawn-sh "~/.local/share/quickshell-lockscreen/lock.sh"; }
+
+    Mod+Escape hotkey-overlay-title="Logout: wleave" { spawn "bash" "-c" "pgrep wleave && pkill wleave || wleave"; }
+    // Please choose your own file manager
+    MOD+E hotkey-overlay-title="File Manager: Nemo" { spawn-sh "nemo"; }
+    // ─── Audio Controls ───
+    // Example volume keys mappings for PipeWire & WirePlumber.
+    // The allow-when-locked=true property makes them work even when the session is locked.
+    XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "~/.config/niri/scripts/volume.sh inc"; }
+    XF86AudioLowerVolume allow-when-locked=true { spawn-sh "~/.config/niri/scripts/volume.sh dec"; }
+    XF86AudioMute allow-when-locked=true { spawn-sh "~/.config/niri/scripts/volume.sh mute"; }
+    XF86AudioMicMute allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"; }
+    XF86AudioNext allow-when-locked=true { spawn-sh "playerctl next"; }
+    XF86AudioPause allow-when-locked=true { spawn-sh "playerctl play-pause"; }
+    XF86AudioPlay allow-when-locked=true { spawn-sh "playerctl play-pause"; }
+    XF86AudioPrev allow-when-locked=true { spawn-sh "playerctl previous"; }
+	XF86MonBrightnessUp allow-when-locked=true { spawn-sh "~/.config/niri/scripts/brightness.sh inc"; }
+    XF86MonBrightnessDown allow-when-locked=true { spawn-sh "~/.config/niri/scripts/brightness.sh dec"; }
+    // ─── Window Movement and Focus ───
+    MOD+C                                { close-window; }
+
+    MOD+LEFT                            { focus-column-left; }
+    MOD+H                               { focus-column-left; }
+    MOD+RIGHT                           { focus-column-right; }
+    MOD+L                               { focus-column-right; }
+    MOD+UP                              { focus-window-up; }
+    MOD+K                               { focus-window-up; }
+    MOD+DOWN                            { focus-window-down; }
+    MOD+J                               { focus-window-down; }
+
+    MOD+CTRL+LEFT                       { move-column-left; }
+    MOD+CTRL+H                          { move-column-left; }
+    MOD+CTRL+RIGHT                      { move-column-right; }
+    MOD+CTRL+L                          { move-column-right; }
+    MOD+CTRL+UP                         { move-window-up; }
+    MOD+CTRL+K                          { move-window-up; }
+    MOD+CTRL+DOWN                       { move-window-down; }
+    MOD+CTRL+J                          { move-window-down; }
+
+    MOD+SHIFT+UP                        { focus-monitor-up; }
+    MOD+SHIFT+DOWN                      { focus-monitor-down; }
+
+    MOD+SHIFT+CTRL+LEFT                 { move-column-to-monitor-left; }
+    MOD+SHIFT+CTRL+RIGHT                { move-column-to-monitor-right; }
+    MOD+SHIFT+CTRL+UP                   { move-column-to-monitor-up; }
+    MOD+SHIFT+CTRL+DOWN                 { move-column-to-monitor-down; }
+
+    // ─── Workspace Switching ───
+    MOD+WHEELSCROLLDOWN cooldown-ms=150 { focus-workspace-down; }
+    MOD+WHEELSCROLLUP cooldown-ms=150 { focus-workspace-up; }
+    MOD+CTRL+WHEELSCROLLDOWN cooldown-ms=150 { move-column-to-workspace-down; }
+    MOD+CTRL+WHEELSCROLLUP cooldown-ms=150 { move-column-to-workspace-up; }
+
+    MOD+WHEELSCROLLRIGHT                { focus-column-right; }
+    MOD+WHEELSCROLLLEFT                 { focus-column-left; }
+    MOD+CTRL+WHEELSCROLLRIGHT           { move-column-right; }
+    MOD+CTRL+WHEELSCROLLLEFT            { move-column-left; }
+
+    MOD+SHIFT+WHEELSCROLLDOWN           { focus-column-right; }
+    MOD+SHIFT+WHEELSCROLLUP             { focus-column-left; }
+    MOD+CTRL+SHIFT+WHEELSCROLLDOWN      { move-column-right; }
+    MOD+CTRL+SHIFT+WHEELSCROLLUP        { move-column-left; }
+
+    MOD+1                               { focus-workspace 1; }
+    // MOD+2                               { focus-workspace 2; }
+    // MOD+3                               { focus-workspace 3; }
+    // MOD+4                               { focus-workspace 4; }
+    // MOD+5                               { focus-workspace 5; }
+    // MOD+6                               { focus-workspace 6; }
+    // MOD+7                               { focus-workspace 7; }
+    // MOD+8                               { focus-workspace 8; }
+    // MOD+9                               { focus-workspace 9; }
+
+    MOD+SHIFT+1                          { move-column-to-workspace 1; }
+    MOD+SHIFT+2                          { move-column-to-workspace 2; }
+    MOD+SHIFT+3                          { move-column-to-workspace 3; }
+    MOD+SHIFT+4                          { move-column-to-workspace 4; }
+    MOD+SHIFT+5                          { move-column-to-workspace 5; }
+    MOD+SHIFT+6                          { move-column-to-workspace 6; }
+    MOD+SHIFT+7                          { move-column-to-workspace 7; }
+    MOD+SHIFT+8                          { move-column-to-workspace 8; }
+    MOD+SHIFT+9                          { move-column-to-workspace 9; }
+
+    MOD+TAB                             { focus-workspace-previous; }
+
+    // ─── Layout Controls ───
+    MOD+F                          { expand-column-to-available-width; }
+    MOD+SHIFT+C                               { center-column; }
+    MOD+CTRL+C                          { center-visible-columns; }
+    MOD+MINUS                           { set-column-width "-10%"; }
+    MOD+EQUAL                           { set-column-width "+10%"; }
+    MOD+SHIFT+MINUS                     { set-window-height "-10%"; }
+    MOD+SHIFT+EQUAL                     { set-window-height "+10%"; }
+
+    // ─── Modes ───
+    MOD+SHIFT+F                               { fullscreen-window; }
+    MOD+W                               { toggle-column-tabbed-display; }
+
+    // ─── Screenshots ───
+    MOD+S                      			{ screenshot; }
+    MOD+SHIFT+S                        { screenshot-screen; }
+    CTRL+SHIFT+S                        { screenshot-window; }
+
+    // ─── Emergency Escape Key ───
+    // Use this when a fullscreen app blocks your keybinds.
+    // It disables any active keyboard shortcut inhibitor, restoring control.
+    MOD+Backspace allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
+
+    // ─── Exit / Power ───
+    CTRL+ALT+DELETE                     { quit; }
+ // Also quits Niri
+    MOD+SHIFT+P                         { power-off-monitors; }
+ // Turn off screens (useful for OLED or privacy)
+    // MOD+O repeat=false { toggle-overview; }
+
+    Mod+Shift+Return { spawn "foot" "--app-id" "float"; }
+
+
+
+}
+
+// ────────────── Startup Applications ──────────────
+// https://github.com/YaLTeR/niri/wiki/Configuration:-Miscellaneous#spawn-sh-at-startup
+
+    spawn-sh-at-startup "waybar"
+    spawn-sh-at-startup "oniri -T"
+	spawn-sh-at-startup "wl-paste --watch clipvault store"
+ 	spawn-sh-at-startup "hypridle"
+    spawn-sh-at-startup "mako"
+	spawn-sh-at-startup "swaybg -i ~/Pictures/Wallpapers/ter1.png"
+    prefer-no-csd // Disable program decorations
+    screenshot-path "~/Pictures/Screenshots/%Y-%m-%d %H-%M-%S.png"
+
+
+// ────────────── Layout Settings ──────────────
+// https://github.com/YaLTeR/niri/wiki/Configuration:-Layout
+
+layout {
+        gaps 20 // Gap between windows
+        always-center-single-column
+        center-focused-column "never" // Don’t auto-center focused column
+		background-color "transparent"
+
+        preset-column-widths {
+            proportion 0.33333
+            proportion 0.5
+            proportion 0.66667
+            proportion 0.75
+            proportion 0.9
+    }
+
+        focus-ring {
+        	off
+            width 3
+             active-color "#30d577"
+            inactive-color "#70513c"
+    }
+
+
+        border {
+        	on
+            width 3
+            active-color "#ccc723"
+            inactive-color "#4F392A"
+    }
+
+        shadow {
+        	off
+            softness 35
+            spread 9
+            offset x=0 y=5
+            color "#865e3c"
+    }
+
+        struts
+}
+
+
+    recent-windows {
+        // off
+        debounce-ms 750
+
+        open-delay-ms 150
+
+        highlight {
+            active-color "#30d577bb"
+            urgent-color "#ff9999ff"
+            padding 20
+            corner-radius 16
+    }
+}
+
+// ────────────── Animation Settings ──────────────
+// https://github.com/YaLTeR/niri/wiki/Configuration:-Animations
+    animations {
+    workspace-switch {
+        spring damping-ratio=0.8 stiffness=523 epsilon=0.0001
+    }
+    window-open {
+        duration-ms 500
+        curve "ease-out-expo"
+        custom-shader "vec4 fall_from_top(vec3 coords_geo, vec3 size_geo) {\n            float progress = niri_clamped_progress * niri_clamped_progress;\n            vec2 coords = (coords_geo.xy - vec2(0.5, 0.0)) * size_geo.xy;\n            coords.y += (1.0 - progress) * 1440.0;\n            float max_angle = mix(-0.5, 0.5, floor(niri_random_seed * 4.0) / 3.0);\n            float angle = (1.0 - progress) * max_angle;\n            mat2 rotate = mat2(cos(angle), -sin(angle), sin(angle), cos(angle));\n            coords = rotate * coords;\n            coords_geo = vec3(coords / size_geo.xy + vec2(0.5, 0.0), 1.0);\n            vec3 coords_tex = niri_geo_to_tex * coords_geo;\n            return texture2D(niri_tex, coords_tex.st);\n        }\n        vec4 open_color(vec3 coords_geo, vec3 size_geo) {\n            return fall_from_top(coords_geo, size_geo);\n        }"
+    }
+
+    window-close {
+        duration-ms 500
+        curve "linear"
+        custom-shader "vec4 fall_to_bottom(vec3 coords_geo, vec3 size_geo) {\n            float progress = niri_clamped_progress * niri_clamped_progress;\n            vec2 coords = (coords_geo.xy - vec2(0.5, 0.0)) * size_geo.xy;\n            coords.y -= progress * 1440.0;\n            float max_angle = mix(-0.5, 0.5, floor(niri_random_seed * 4.0) / 3.0);\n            float angle = progress * max_angle;\n            mat2 rotate = mat2(cos(angle), -sin(angle), sin(angle), cos(angle));\n            coords = rotate * coords;\n            coords_geo = vec3(coords / size_geo.xy + vec2(0.5, 0.0), 1.0);\n            vec3 coords_tex = niri_geo_to_tex * coords_geo;\n            return texture2D(niri_tex, coords_tex.st);\n        }\n        vec4 close_color(vec3 coords_geo, vec3 size_geo) {\n            return fall_to_bottom(coords_geo, size_geo);\n        }"
+    }
+    slowdown 1.0
+}
+
+// ────────────── Window Rules ──────────────
+// https://github.com/YaLTeR/niri/wiki/Configuration:-Window-Rules
+
+
+    window-rule {
+        match app-id=r"firefox$" title="^Picture-in-Picture$"
+        open-floating true // Always float Firefox PiP windows
+}
+
+    window-rule {
+	    geometry-corner-radius 20 // Set every window radius to 20
+	    clip-to-geometry true
+	}
+
+
+// window-rule {
+//     match app-id="celluloid"
+//    open-floating true
+//
+//
+//        default-column-width { fixed 1280; }
+//        default-window-height { fixed 720; }
+//}
+//
+// window-rule {
+//     match app-id="tabularis"
+//     open-floating true
+// }
+
+
+ window-rule {
+        match app-id="float"
+        open-floating true
+    }
+
+    window-rule {
+        match app-id="foot"
+        match app-id="zed"
+        match app-id="zen"
+
+        background-effect {
+            blur true
+    }
+}
+
+    layer-rule {
+    	match namespace="wleave"
+	  	background-effect {
+	         blur true
+    	}
+    	
+    	opacity 0.8
+	}
+
+	layer-rule {
+		place-within-backdrop true
+}
+
+    overview {
+        backdrop-color "#997156"
+    }
+// ────────────── Environment Variables ──────────────
+// https://github.com/YaLTeR/niri/wiki/Configuration:-Miscellaneous#environment
+
+    environment {
+        DISPLAY ":1"
+        ELECTRON_OZONE_PLATFORM_HINT "auto"
+        QT_QPA_PLATFORM "wayland"
+        QT_WAYLAND_DISABLE_WINDOWDECORATION "1"
+        XDG_SESSION_TYPE "wayland"
+        XDG_CURRENT_DESKTOP "niri"
+
+        QT_QPA_PLATFORMTHEME "qt5ct"
+        QT_QPA_PLATFORMTHEME_QT6 "qt6ct"
+        QT_WAYLAND_DISABLE_WINDOWDECORATION "1"
+        QT_AUTO_SCREEN_SCALE_FACTOR "1"
+
+        GDK_BACKEND "wayland,x11"
+
+        // Firefox Wayland
+        MOZ_ENABLE_WAYLAND "1"
+        MOZ_DBUS_REMOTE "1"
+
+        // Java Applications
+        _JAVA_AWT_WM_NONREPARENTING "1"
+
+        // SDL Applications
+        SDL_VIDEODRIVER "wayland"
+
+        // CLUTTER Applications
+        CLUTTER_BACKEND "wayland"
+
+        // Performance
+        VDPAU_DRIVER "va_gl"
+        LIBVA_DRIVER_NAME "iHD"
+}
+
+    hotkey-overlay {
+        skip-at-startup
+}
